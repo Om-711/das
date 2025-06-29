@@ -23,7 +23,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- TABS ---
-tab1, tab2, tab3,tab5 = st.tabs(["📊 Data Analytics", "📈 Feature Visualizations", "📉 Performance Analyzer", "🧮 Model Insights", "📐 Correlation Matrix"])
+tab1, tab2, tab3,tab5 = st.tabs(["📊 Data Analytics", "📈 Feature Visualizations", "📉 Performance Analyzer", "📐 Correlation Matrix"])
 
 # --- Feature Groups for Visualization ---
 feature_groups = {
