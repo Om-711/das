@@ -222,10 +222,19 @@ with tab2:
     images = image_map[viz_type].get(selected_group, [])
 
     if images:
-        for i, img_path in enumerate(images):
-            st.image(img_path, caption=f"{selected_group} — {viz_type} Plot {i+1}", width=800)  # 👈 set width here (e.g., 800px)
-    else:
-        st.info(f"No {viz_type.lower()} images available for this feature group.")
+        for i in range(0, len(images), 2):
+            cols = st.columns(2)
+            for j in range(2):
+                if i + j < len(images):
+                    with cols[j]:
+                        st.image(images[i + j], caption=f"{selected_group} — {viz_type} Plot {i + j + 1}", width=680)
+
+
+    # if images:
+    #     for i, img_path in enumerate(images):
+    #         st.image(img_path, caption=f"{selected_group} — {viz_type} Plot {i+1}", width=800)  # 👈 set width here (e.g., 800px)
+    # else:
+    #     st.info(f"No {viz_type.lower()} images available for this feature group.")
 
 
 # --- TAB 3: Performance Analyzer ---
@@ -335,4 +344,4 @@ with tab5:
         with tab:
             st.markdown(f"### 📊 {feature_name}")
             for i, img_path in enumerate(corr_image_map[feature_name]):
-                st.image(img_path, caption=f"{feature_name} - Correlation View {i + 1}", width=800)
+                st.image(img_path, caption=f"{feature_name} - Correlation View {i + 1}", width=700)
