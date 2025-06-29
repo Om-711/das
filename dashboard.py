@@ -31,10 +31,12 @@ st.markdown("""
     .team-member-image {
         width: 150px;
         height: 150px;
-        border-radius: 50%;
-        margin: 0 auto 15px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
         border: 4px solid white;
     }
+
     .team-member-name {
         font-size: 24px;
         font-weight: bold;
@@ -385,28 +387,22 @@ with tab5:
     cols = st.columns(3)
     
     for i, member in enumerate(team_members):
-        with cols[i]:
-            # Create team member card using HTML
-            st.markdown(f"""
-            <div class="team-card">
-                <div class="team-member-name">{member['name']}</div>
-                <div class="team-social-links">
-                    <a href="{member['linkedin']}" target="_blank" class="social-btn">
-                        <i class="fab fa-linkedin"></i> in
-                    </a>
-                    <a href="{member['github']}" target="_blank" class="social-btn">
-                        <i class="fab fa-github"></i> </>
-                    </a>
-                </div>
+    with cols[i]:
+        st.markdown(f"""
+        <div class="team-card">
+            <img src="{member['image']}" class="team-member-image" alt="{member['name']}"/>
+            <div class="team-member-name">{member['name']}</div>
+            <div class="team-social-links">
+                <a href="{member['linkedin']}" target="_blank" class="social-btn" title="LinkedIn">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24" style="vertical-align:middle;">
+                </a>
+                <a href="{member['github']}" target="_blank" class="social-btn" title="GitHub">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="24" style="vertical-align:middle;">
+                </a>
             </div>
-            """, unsafe_allow_html=True)
-            
-            # Display image if available
-            try:
-                st.image(member['image'], width=200, caption=member['name'])
-            except:
-                # Fallback if image doesn't exist
-                st.info(f"Photo coming soon for {member['name']}")
+        </div>
+        """, unsafe_allow_html=True)
+
     
     st.markdown("---")
     st.markdown("**Indian Institute of Information Technology Design & Manufacturing, Kurnool**")
