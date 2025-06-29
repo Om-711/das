@@ -153,7 +153,7 @@ with tab2:
     # st.subheader("⏱ Choose Visualization Granularity")
     viz_type = st.radio(
         "Select one:",
-        options=["Raw", "Hourly", "Daily", "Weekly"],
+        options=["General", "Hourly", "Daily", "Weekly"],
         horizontal=True
     )
 
@@ -231,7 +231,7 @@ with tab2:
     st.subheader(f"📷 {viz_type} Visualization")
 
     image_map = {
-        'Raw' : raw_image_map,
+        'General' : raw_image_map,
         "Hourly": hourly_image_map,
         "Daily": daily_image_map,
         "Weekly": weekly_image_map
@@ -260,7 +260,7 @@ with tab1:
     st.header("📉 Performance Analyzer")
 
     # Step 1: Time granularity
-    granularity = st.radio("Select Time Granularity", ["Raw", "Hourly", "Daily", "Weekly"], horizontal=True)
+    granularity = st.radio("Select Time Granularity", ["General", "Hourly", "Daily", "Weekly"], horizontal=True)
 
     scope = None
     plant_number = None
@@ -277,7 +277,7 @@ with tab1:
 
     # Define image paths
     image_paths = {
-        "Raw": ["Images/combine_loss_hourly.png"],
+        "General": ["Images/combine_loss_hourly.png"],
         "Hourly": {
             "Plant Level": {"3": ["Images/plant3_hourly.png"], 
                             "8": ["Images\plant8_hourly.png"]},
