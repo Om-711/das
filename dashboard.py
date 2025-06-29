@@ -416,5 +416,3 @@ with tab5:
     
     st.markdown("---")
     st.markdown("**Indian Institute of Information Technology Design & Manufacturing, Kurnool**")
-    st.markdown("*Building sustainable energy solutions through data analytics and machine learning*")
-    # st.markdown("© Copyright 2025")
