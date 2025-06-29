@@ -20,7 +20,7 @@ st.markdown("""
         padding-top: 1rem;
     }
     .team-card {
-        background: linear-gradient(135deg, #4ECDC4, #44A08D);
+        background: linear-gradient(135deg, #2c3e50, #4ca1af);
         border-radius: 15px;
         padding: 20px;
         text-align: center;
@@ -388,6 +388,7 @@ with tab5:
     
     for i, member in enumerate(team_members):
         with cols[i]:
+            st.image(member['image'], width=150)
             st.markdown(f"""
             <div class="team-card">
                 <img src="{member['image']}" class="team-member-image" alt="{member['name']}"/>
