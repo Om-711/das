@@ -27,7 +27,7 @@ st.markdown("""
 tab1, tab2, tab3, tab4 = st.tabs([
     "📉 Performance Analyzer", 
     "📊 Feature Visualizations", 
-    "🔁 Actual vs Estimated", 
+    "🔁 Actual vs Estimated Analysis", 
     "📐 Correlation Matrix"
 ])
 
@@ -103,14 +103,15 @@ feature_groups = {
 
 }
 
-with tab1:
-    st.header("📊 Data Analytics")
+with tab3:
+    st.header("🔁 Actual vs Estimated Analysis")
 
-    # --- Monthly Energy Loss Plot (Image) ---
     st.markdown("---")
     st.subheader("📆 Monthly Energy Loss")
 
+    st.image("Images/added.png", caption="Actual vs Predicted Energy Output", width=850)
     st.image("Images/energy_loss.png", caption="Monthly Energy Loss", width=850)
+    # st.image("Images/error_trend.png", caption="Daily Error Trend", width=850)
 
 
 
@@ -255,7 +256,7 @@ with tab2:
 
 
 # --- TAB 3: Performance Analyzer ---
-with tab3:
+with tab1:
     st.header("📉 Performance Analyzer")
 
     # Step 1: Time granularity
