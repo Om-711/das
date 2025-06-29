@@ -62,14 +62,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
 # --- TABS ---
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📉 Performance Analyzer", 
     "📊 Feature Visualizations", 
     "🔁 Actual vs Estimated Analysis", 
     "📐 Correlation Matrix",
-     "👥 Our Team"
+    "👥 Our Team"
 ])
 
 # --- Feature Groups for Visualization ---
@@ -316,10 +315,49 @@ with tab2:
     else:
         st.info(f"No {viz_type.lower()} images available for this feature group.")
 
+# --- TAB 3: Actual vs Estimated Analysis ---
+with tab3:
+    st.header("🔁 Actual vs Estimated Analysis")
+
+    st.markdown("---")
+    st.subheader("📆 Monthly Energy Loss")
+
+    st.image("Images/added.png", caption="Actual vs Predicted Energy Output", width=850)
+    st.image("Images/energy_loss.png", caption="Monthly Energy Loss", width=850)
+
+# --- TAB 4: Correlation Matrix ---
+with tab4:
+    st.header("📐 Feature Correlation Matrix")
+    st.subheader("🖼️ Correlation by Feature Group")
+
+    # Define feature group with appropriate image names
+    corr_image_map = {
+        "SCB Current (A)": ["Images/corr_string.png"],
+        "SCB Voltage (V)": ["Images/corr_string.png"],
+        "Energy Generation": ["Images/corr_ac.png"],
+        "DC Input Power": ["Images/corr_ac.png"],
+        "AC Output Power": ["Images/corr_ac.png"],
+        "Solar Irradiation (W/m²)": ["Images/corr_solar_iradiance.png"],
+        "Temperature (°C)": ["Images/corr_solar_iradiance.png"],
+        "Wind Speed (m/s)": ["Images/corr_windspeed.png"],
+        "Wind Direction (°)": ["Images/corr_winddir.png"],
+        "Humidity (%)": ["Images/corr_humidity.png"],
+        "Datalogger Temperature (°C)": ["Images/corr_datalogger.png"]
+    }
+
+    # Create one tab per feature group
+    feature_tabs = st.tabs(list(corr_image_map.keys()))
+
+    for tab, feature_name in zip(feature_tabs, corr_image_map.keys()):
+        with tab:
+            st.markdown(f"### 📊 {feature_name}")
+            for i, img_path in enumerate(corr_image_map[feature_name]):
+                st.image(img_path, caption=f"{feature_name} - Correlation View {i + 1}", width=700)
+
 # --- TAB 5: Our Team ---
 with tab5:
     st.header("👥 Our Team")
-    st.markdown("### Meet the brilliant minds behind this Solar Energy Dashboard")
+    # st.markdown("### Meet the brilliant minds behind this Solar Energy Dashboard")
     
     # Team members data
     team_members = [
@@ -374,4 +412,3 @@ with tab5:
     st.markdown("**Indian Institute of Information Technology Design & Manufacturing, Kurnool**")
     st.markdown("*Building sustainable energy solutions through data analytics and machine learning*")
     st.markdown("© Copyright 2025")
-    
