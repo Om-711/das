@@ -335,7 +335,7 @@ with tab1:
 
 
 # --- TAB 5: Correlation Matrix ---
-with tab5:
+with tab4:
     # st.header("📐 Feature Correlation Matrix")
 
     st.subheader("🖼️ Correlation by Feature Group")
