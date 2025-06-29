@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import base64
+
 # import seaborn as sns
 
 # --- PAGE TITLE ---
@@ -355,6 +357,11 @@ with tab4:
             st.markdown(f"### 📊 {feature_name}")
             for i, img_path in enumerate(corr_image_map[feature_name]):
                 st.image(img_path, caption=f"{feature_name} - Correlation View {i + 1}", width=700)
+                
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        encoded = base64.b64encode(img_file.read()).decode()
+        return f"data:image/jpeg;base64,{encoded}"
 
 # --- TAB 5: Our Team ---
 with tab5:
@@ -385,24 +392,26 @@ with tab5:
     
     # Display team members in a row
     cols = st.columns(3)
-    
+
     for i, member in enumerate(team_members):
         with cols[i]:
-            st.image(member['image'], width=150)
+            img_base64 = get_base64_image(member["image"])
+            
             st.markdown(f"""
             <div class="team-card">
-                <img src="{member['image']}" class="team-member-image" alt="{member['name']}"/>
+                <img src="{img_base64}" class="team-member-image" alt="{member['name']}"/>
                 <div class="team-member-name">{member['name']}</div>
                 <div class="team-social-links">
                     <a href="{member['linkedin']}" target="_blank" class="social-btn" title="LinkedIn">
-                        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24" style="vertical-align:middle;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24">
                     </a>
                     <a href="{member['github']}" target="_blank" class="social-btn" title="GitHub">
-                        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="24" style="vertical-align:middle;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="24">
                     </a>
                 </div>
             </div>
             """, unsafe_allow_html=True)
+
 
     
     st.markdown("---")
