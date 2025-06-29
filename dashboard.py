@@ -415,4 +415,4 @@ with tab5:
 
     
     st.markdown("---")
-    st.markdown("**Indian Institute of Information Technology Design & Manufacturing, Kurnool**")
+    # st.markdown("**Indian Institute of Information Technology Design & Manufacturing, Kurnool**")
