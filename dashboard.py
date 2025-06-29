@@ -721,19 +721,19 @@ with tab5:
     team_members = [
         {
             "name": "Paarth Batra",
-            "image": "Images/paarth.jpg",  # Replace with actual image path
+            "image": "Images/paarth.jpeg",  
             "linkedin": "https://www.linkedin.com/in/paarth7/",
             "github": "https://github.com/hydro-7"
         },
         {
             "name": "Dhruv Singh",
-            "image": "Images/dhruv.jpg",  # Replace with actual image path
+            "image": "Images/dhruv.jpeg", 
             "linkedin": "https://www.linkedin.com/in/dhruv-singh-b12768285/",
             "github": "https://github.com/Vurhd0"
         },
         {
             "name": "Om Chiddarwar",
-            "image": "Images/om.jpg",  # Replace with actual image path
+            "image": "Images/om.jpeg", 
             "linkedin": "https://www.linkedin.com/in/om-chiddarwar-29a947283/",
             "github": "https://github.com/Om-711"
         }
