@@ -23,7 +23,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- TABS ---
-
 tab1, tab2, tab3, tab4 = st.tabs([
     "📉 Performance Analyzer", 
     "📊 Feature Visualizations", 
@@ -80,12 +79,6 @@ feature_groups = {
     'Humidity (%)': ['meteorolgicas_em_03_02_h_r', 'meteorolgicas_em_08_01_h_r'],
     'Wind Speed (m/s)': ['meteorolgicas_em_03_02_ws', 'meteorolgicas_em_08_01_ws'],
     'Wind Direction (°)': ['meteorolgicas_em_03_02_wd', 'meteorolgicas_em_08_01_wd'],
-    # 'Shading Sensor (IR)': [
-    #     'celulas_ctin08_cc_08_1_ir_cel_1', 'celulas_ctin08_cc_08_2_ir_cel_1',
-    #     'celulas_ctin03_cc_03_1_ir_cel_1', 'celulas_ctin03_cc_03_2_ir_cel_1',
-    #     'celulas_ctin03_cc_03_1_ir_cel_2', 'celulas_ctin03_cc_03_2_ir_cel_2',
-    #     'celulas_ctin08_cc_08_1_ir_cel_2', 'celulas_ctin08_cc_08_2_ir_cel_2'
-    # ],
     'Energy Generation': [
         'inversores_ctin03_inv_03_03_eact_tot', 'inversores_ctin08_inv_08_08_eact_tot'
     ],
@@ -95,52 +88,94 @@ feature_groups = {
     'AC Output Power': [
         'inversores_ctin03_inv_03_03_p', 'inversores_ctin08_inv_08_08_p'
     ],
-    
     'Datalogger Temperature (°C)': [
         'meteorolgicas_em_03_02_t_dlogger',
         'meteorolgicas_em_08_01_t_dlogger'
     ]
-
 }
 
-with tab3:
-    st.header("🔁 Actual vs Estimated Analysis")
+# --- TAB 1: Performance Analyzer ---
+with tab1:
+    st.header("📉 Performance Analyzer")
+
+    # Step 1: Time granularity
+    granularity = st.radio("Select Time Granularity", ["General", "Hourly", "Daily", "Weekly"], horizontal=True)
+
+    scope = None
+    plant_number = None
+    string_number = None
+
+    if granularity != "General":
+        # Step 2: Analysis Scope
+        scope = st.radio("Select Scope", ["Plant Level", "String Level"], horizontal=True)
+
+        if scope == "Plant Level":
+            plant_number = st.selectbox("Select Plant", ["3", "8"])
+        elif scope == "String Level":
+            string_number = st.selectbox("Select String", ["8", "9", "10", "12"])
+
+    # Define image paths
+    image_paths = {
+        "General": ["Images/combine_loss_hourly.png"],
+        "Hourly": {
+            "Plant Level": {
+                "3": ["Images/plant3_hourly.png"], 
+                "8": ["Images/plant8_hourly.png"]
+            },
+            "String Level": {
+                "8": ["Images/string8_hourly.png"],
+                "9": ["Images/string9_hourly.png"],
+                "10": ["Images/string10_hourly.png"],
+                "12": ["Images/string12_hourly.png"]
+            }
+        },
+        "Daily": {
+            "Plant Level": {
+                "3": ["Images/plant3_daily.png"], 
+                "8": ["Images/plant8_daily.png"]
+            },
+            "String Level": {
+                "8": ["Images/string8_daily.png"], 
+                "9": ["Images/string9_daily.png"], 
+                "10": ["Images/string10_daily.png"], 
+                "12": ["Images/string12_daily.png"]
+            }
+        },
+        "Weekly": {
+            "Plant Level": {
+                "3": ["Images/plant3_weekly.png"], 
+                "8": ["Images/plant8_weekly.png"]
+            },
+            "String Level": {
+                "8": ["Images/string8_weekly.png"], 
+                "9": ["Images/string9_weekly.png"],
+                "10": ["Images/string10_weekly.png"], 
+                "12": ["Images/string12_weekly.png"]
+            }
+        }
+    }
 
     st.markdown("---")
-    st.subheader("📆 Monthly Energy Loss")
+    st.subheader(f"📈 Performance - {granularity} View")
 
-    st.image("Images/added.png", caption="Actual vs Predicted Energy Output", width=850)
-    st.image("Images/energy_loss.png", caption="Monthly Energy Loss", width=850)
-    # st.image("Images/error_trend.png", caption="Daily Error Trend", width=850)
+    images_to_display = []
 
+    if granularity == "General":
+        images_to_display = image_paths.get("General", [])
+    else:
+        if granularity in image_paths:
+            if scope == "Plant Level" and plant_number:
+                images_to_display = image_paths[granularity]["Plant Level"].get(plant_number, [])
+            elif scope == "String Level" and string_number:
+                images_to_display = image_paths[granularity]["String Level"].get(string_number, [])
 
+    if images_to_display:
+        for img in images_to_display:
+            st.image(img, caption=f"{granularity} - {scope or 'General'} View", width=800)
+    else:
+        st.info("No images available for selected configuration.")
 
-# # --- TAB 1: Data Analytics ---
-# with tab1:
-#     st.header("📊 Data Analytics")
-   
-#     df = pd.read_csv("Dataset 1.csv", parse_dates=["datetime"])
-#     df["Energy Loss"] = df["ttr_potenciaproducible"] - df["ppc_p_tot"]
-
-#     # --- Metric Display ---
-#     st.metric("📉 Avg. Loss per Hour", f"{df['Energy Loss'].mean():.2f} kWh")
-
-#     # --- Monthly Energy Loss Plot ---
-#     st.markdown("---")
-#     st.subheader("📆 Monthly Energy Loss")
-#     df["month"] = df["datetime"].dt.to_period("M").astype(str)
-#     monthly_loss = df.groupby("month")["Energy Loss"].sum()
-
-#     fig_month, ax_month = plt.subplots(figsize=(12, 4))  # Approx. 800px wide
-#     ax_month.bar(monthly_loss.index, monthly_loss.values, color="orange")
-#     ax_month.set_title("Total Energy Loss per Month")
-#     ax_month.set_xlabel("Month")
-#     ax_month.set_ylabel("Energy Loss (kWh)")
-#     ax_month.tick_params(axis='x', rotation=45)
-#     st.pyplot(fig_month)
-
-
-# --- TAB 2: Visualizations ---
+# --- TAB 2: Feature Visualizations ---
 with tab2:
     st.header("📈 Feature Visualization")
 
@@ -148,9 +183,7 @@ with tab2:
     st.subheader("🧰 Select Feature Group")
     selected_group = st.selectbox("Feature Group", list(feature_groups.keys()))
 
-
-    # --- Choose Time Granularity (Only one) ---
-    # st.subheader("⏱ Choose Visualization Granularity")
+    # --- Choose Time Granularity ---
     viz_type = st.radio(
         "Select one:",
         options=["General", "Hourly", "Daily", "Weekly"],
@@ -168,11 +201,8 @@ with tab2:
         "Wind Speed (m/s)": ["Images/windspeed_nan.png", "Images/windspeed_zero.png"],
         "Wind Direction (°)": ["Images/winddir_nan.png", "Images/winddi_zero.png"],
         "Humidity (%)": ["Images/humidity_nan.png", "Images/humidity_zero.png"],
-        "Datalogger Temperature (°C)": ["Images/datalogger_nan.png", "Images/datalogger_zero.png"],
-        # "shading": ["Images/shading_nan.png", "Images/shading_zero.png"]
+        "Datalogger Temperature (°C)": ["Images/datalogger_nan.png", "Images/datalogger_zero.png"]
     }
-
-
 
     # --- Image mapping for each granularity ---
     hourly_image_map = {
@@ -186,10 +216,8 @@ with tab2:
         "Wind Speed (m/s)": ["Images/windspeed_hourly.png", "Images/windspeed_histogram.png"],
         "Wind Direction (°)": ["Images/winddir_hourly.png", "Images/winddir_histogram.png"],
         "Humidity (%)": ["Images/humidity_hourly.png", "Images/humidity_histogram.png"],
-        "Datalogger Temperature (°C)": ["Images/datalogger_hourly.png", "Images/datalogger_histogram.png"],
-        # "shading": ["Images/hourly_shading.png"]
+        "Datalogger Temperature (°C)": ["Images/datalogger_hourly.png", "Images/datalogger_histogram.png"]
     }
-
 
     daily_image_map = {
         "SCB Current (A)": ["Images/daily_scb_current.png"],
@@ -202,8 +230,7 @@ with tab2:
         "Wind Speed (m/s)": ["Images/daily_windspeed.png"],
         "Wind Direction (°)": ["Images/daily_winddir.png"],
         "Humidity (%)": ["Images/daily_humidity.png"],
-        "Datalogger Temperature (°C)": ["Images/daily_datalogger.png"],
-        # "shading": ["Images/daily_shading.png"]
+        "Datalogger Temperature (°C)": ["Images/daily_datalogger.png"]
     }
 
     weekly_image_map = {
@@ -221,17 +248,15 @@ with tab2:
         "Wind Speed (m/s)": ["Images/weekly_windspeed.png"],
         "Wind Direction (°)": ["Images/weekly_winddir.png"],
         "Humidity (%)": ["Images/weekly_humidity.png"],
-        "Datalogger Temperature (°C)": ["Images/weekly_datalogger.png"],
-        # "shading": ["Images/weekly_shading.png"]
+        "Datalogger Temperature (°C)": ["Images/weekly_datalogger.png"]
     }
-
 
     # --- Display Visualization based on selected type ---
     st.markdown("---")
     st.subheader(f"📷 {viz_type} Visualization")
 
     image_map = {
-        'General' : raw_image_map,
+        'General': raw_image_map,
         "Hourly": hourly_image_map,
         "Daily": daily_image_map,
         "Weekly": weekly_image_map
@@ -246,98 +271,22 @@ with tab2:
                 if i + j < len(images):
                     with cols[j]:
                         st.image(images[i + j], caption=f"{selected_group} — {viz_type} Plot {i + j + 1}", width=680)
+    else:
+        st.info(f"No {viz_type.lower()} images available for this feature group.")
 
-
-    # if images:
-    #     for i, img_path in enumerate(images):
-    #         st.image(img_path, caption=f"{selected_group} — {viz_type} Plot {i+1}", width=800)  # 👈 set width here (e.g., 800px)
-    # else:
-    #     st.info(f"No {viz_type.lower()} images available for this feature group.")
-
-
-# --- TAB 3: Performance Analyzer ---
-with tab1:
-    st.header("📉 Performance Analyzer")
-
-    # Step 1: Time granularity
-    granularity = st.radio("Select Time Granularity", ["General", "Hourly", "Daily", "Weekly"], horizontal=True)
-
-    scope = None
-    plant_number = None
-    string_number = None
-
-    if granularity != "Raw":
-        # Step 2: Analysis Scope
-        scope = st.radio("Select Scope", ["Plant Level", "String Level"], horizontal=True)
-
-        if scope == "Plant Level":
-            plant_number = st.selectbox("Select Plant", ["3", "8"])
-        elif scope == "String Level":
-            string_number = st.selectbox("Select String", ["8", "9", "10", "12"])
-
-    # Define image paths
-    image_paths = {
-        "General": ["Images/combine_loss_hourly.png"],
-        "Hourly": {
-            "Plant Level": {"3": ["Images/plant3_hourly.png"], 
-                            "8": ["Images\plant8_hourly.png"]},
-            
-            "String Level": {"8": ["Images/string8_hourly.png"],
-                             "9": ["Images/string9_hourly.png"],
-                             "10": ["Images/string10_hourly.png"],
-                             "12": ["Images/string12_hourly.png"]}
-        },
-        "Daily": {
-            "Plant Level": {"3": ["Images/plant3_daily.png"], 
-                            "8": ["Images/plant8_daily.png"]},
-
-            "String Level": {"8": ["Images/string8_daily.png"], 
-                             "9": ["Images/string9_daily.png"], 
-                             "10": ["Images/string10_daily.png"], 
-                             "12": ["Images/string12_daily.png"]}
-        },
-        "Weekly": {
-            "Plant Level": {"3": ["Images/plant3_weekly.png"], 
-                            "8": ["Images/plant8_weekly.png"]},
-
-            "String Level": {"8": ["Images/string8_weekly.png"], 
-                             "9": ["Images/string9_weekly.png"],
-                            "10": ["Images/string10_weekly.png"], 
-                            "12": ["Images/string12_weekly.png"]}
-        }
-    }
+# --- TAB 3: Actual vs Estimated Analysis ---
+with tab3:
+    st.header("🔁 Actual vs Estimated Analysis")
 
     st.markdown("---")
-    st.subheader(f"📈 Performance - {granularity} View")
+    st.subheader("📆 Monthly Energy Loss")
 
-    images_to_display = []
+    st.image("Images/added.png", caption="Actual vs Predicted Energy Output", width=850)
+    st.image("Images/energy_loss.png", caption="Monthly Energy Loss", width=850)
 
-    if granularity == "Raw":
-        images_to_display = image_paths.get("Raw", [])
-    else:
-        if granularity in image_paths:
-            if scope == "Plant Level" and plant_number:
-                images_to_display = image_paths[granularity]["Plant Level"].get(plant_number, [])
-            elif scope == "String Level" and string_number:
-                images_to_display = image_paths[granularity]["String Level"].get(string_number, [])
-
-    if images_to_display:
-        for img in images_to_display:
-            st.image(img, caption=f"{granularity} - {scope or 'Raw'} View", width=800)
-    else:
-        st.info("No images available for selected configuration.")
-
-# # --- TAB 4: Model Insights ---
-# with tab4:
-#     st.header("🧮 Model Insights")
-#     st.write("You can show model predictions here or SHAP value explanations.")
-#     st.info("This section is placeholder for ML models or advanced analytics.")
-
-
-# --- TAB 5: Correlation Matrix ---
+# --- TAB 4: Correlation Matrix ---
 with tab4:
-    # st.header("📐 Feature Correlation Matrix")
-
+    st.header("📐 Feature Correlation Matrix")
     st.subheader("🖼️ Correlation by Feature Group")
 
     # Define feature group with appropriate image names
