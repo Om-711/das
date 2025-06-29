@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # --- PAGE TITLE ---
 st.set_page_config(page_title="Solar Dashboard", layout="wide")
-st.title("🔆 Solar Energy Dashboard")
+st.title("🔆 ML Ascend Submission Dashboard")
 st.markdown("""
 <style>
     .stTabs [data-baseweb="tab"] {
