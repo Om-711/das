@@ -340,11 +340,11 @@ with tab3:
     else:
         st.info("No images available for selected configuration.")
 
-# --- TAB 4: Model Insights ---
-with tab4:
-    st.header("🧮 Model Insights")
-    st.write("You can show model predictions here or SHAP value explanations.")
-    st.info("This section is placeholder for ML models or advanced analytics.")
+# # --- TAB 4: Model Insights ---
+# with tab4:
+#     st.header("🧮 Model Insights")
+#     st.write("You can show model predictions here or SHAP value explanations.")
+#     st.info("This section is placeholder for ML models or advanced analytics.")
 
 
 # --- TAB 5: Correlation Matrix ---
