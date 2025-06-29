@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-# import seaborn as sns
+import seaborn as sns
 
 # --- PAGE TITLE ---
 st.set_page_config(page_title="Solar Dashboard", layout="wide")
@@ -96,30 +96,61 @@ feature_groups = {
     ]
 
 }
-
-# --- TAB 1: Data Analytics ---
 with tab1:
     st.header("📊 Data Analytics")
+
+    uploaded_file = st.file_uploader("📤 Upload your CSV file", type=["csv"])
+
+    if uploaded_file is not None:
+        df = pd.read_csv(uploaded_file, parse_dates=["datetime"])
+
+        # --- Calculate Energy Loss ---
+        df["Energy Loss"] = df["ttr_potenciaproducible"] - df["ppc_p_tot"]
+
+        # --- Metric Display ---
+        st.metric("📉 Avg. Loss per Hour", f"{df['Energy Loss'].mean():.2f} kWh")
+
+        # --- Monthly Energy Loss Plot ---
+        st.markdown("---")
+        st.subheader("📆 Monthly Energy Loss")
+        df["month"] = df["datetime"].dt.to_period("M").astype(str)
+        monthly_loss = df.groupby("month")["Energy Loss"].sum()
+
+        fig_month, ax_month = plt.subplots(figsize=(12, 4))
+        ax_month.bar(monthly_loss.index, monthly_loss.values, color="orange")
+        ax_month.set_title("Total Energy Loss per Month")
+        ax_month.set_xlabel("Month")
+        ax_month.set_ylabel("Energy Loss (kWh)")
+        ax_month.tick_params(axis='x', rotation=45)
+        st.pyplot(fig_month)
+
+    else:
+        st.info("Please upload a CSV file to proceed.")
+
+
+# # --- TAB 1: Data Analytics ---
+# with tab1:
+#     st.header("📊 Data Analytics")
    
-    df = pd.read_csv("Dataset 1.csv", parse_dates=["datetime"])
-    df["Energy Loss"] = df["ttr_potenciaproducible"] - df["ppc_p_tot"]
+#     df = pd.read_csv("Dataset 1.csv", parse_dates=["datetime"])
+#     df["Energy Loss"] = df["ttr_potenciaproducible"] - df["ppc_p_tot"]
 
-    # --- Metric Display ---
-    st.metric("📉 Avg. Loss per Hour", f"{df['Energy Loss'].mean():.2f} kWh")
+#     # --- Metric Display ---
+#     st.metric("📉 Avg. Loss per Hour", f"{df['Energy Loss'].mean():.2f} kWh")
 
-    # --- Monthly Energy Loss Plot ---
-    st.markdown("---")
-    st.subheader("📆 Monthly Energy Loss")
-    df["month"] = df["datetime"].dt.to_period("M").astype(str)
-    monthly_loss = df.groupby("month")["Energy Loss"].sum()
+#     # --- Monthly Energy Loss Plot ---
+#     st.markdown("---")
+#     st.subheader("📆 Monthly Energy Loss")
+#     df["month"] = df["datetime"].dt.to_period("M").astype(str)
+#     monthly_loss = df.groupby("month")["Energy Loss"].sum()
 
-    fig_month, ax_month = plt.subplots(figsize=(12, 4))  # Approx. 800px wide
-    ax_month.bar(monthly_loss.index, monthly_loss.values, color="orange")
-    ax_month.set_title("Total Energy Loss per Month")
-    ax_month.set_xlabel("Month")
-    ax_month.set_ylabel("Energy Loss (kWh)")
-    ax_month.tick_params(axis='x', rotation=45)
-    st.pyplot(fig_month)
+#     fig_month, ax_month = plt.subplots(figsize=(12, 4))  # Approx. 800px wide
+#     ax_month.bar(monthly_loss.index, monthly_loss.values, color="orange")
+#     ax_month.set_title("Total Energy Loss per Month")
+#     ax_month.set_xlabel("Month")
+#     ax_month.set_ylabel("Energy Loss (kWh)")
+#     ax_month.tick_params(axis='x', rotation=45)
+#     st.pyplot(fig_month)
 
 
 # --- TAB 2: Visualizations ---
