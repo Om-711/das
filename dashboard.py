@@ -365,7 +365,7 @@ def get_base64_image(image_path):
 
 # --- TAB 5: Our Team ---
 with tab5:
-    st.header("👥 Our Team")
+    st.header("👥 Our Team - Kurnool ke Yodha")
     # st.markdown("### Meet the brilliant minds behind this Solar Energy Dashboard")
     
     # Team members data
