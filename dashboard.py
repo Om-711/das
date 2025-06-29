@@ -171,7 +171,7 @@ with tab2:
     )
 
     raw_image_map = {
-        "SCB Current (A)": ["Images/SCB_current_nan.png", "Images/scb_current_zero.png"],
+        "SCB Current (A)": ["Images/SCB_current_nan.png", "Images/SCB_current_zero.png"],
         "SCB Voltage (V)": ["Images/scb_voltage_nan.png", "Images/voltage_zero.png"],
         "Energy Generation": ["Images/energy_generation_nan.png", "Images/energy_generation_zero.png"],
         "DC Input Power": ["Images/dc_input_nan.png", "Images/dc_input_zero.png"],
