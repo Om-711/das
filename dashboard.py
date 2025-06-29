@@ -282,7 +282,7 @@ with tab3:
     st.subheader("📆 Monthly Energy Loss")
 
     st.image("Images/added.png", caption="Actual vs Predicted Energy Output", width=850)
-    st.image("Images/energy_loss.png", caption="Monthly Energy Loss", width=850)
+    # st.image("Images/energy_loss.png", caption="Monthly Energy Loss", width=850)
 
 # --- TAB 4: Correlation Matrix ---
 with tab4:
