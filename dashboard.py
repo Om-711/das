@@ -387,24 +387,24 @@ with tab5:
     cols = st.columns(3)
     
     for i, member in enumerate(team_members):
-    with cols[i]:
-        st.markdown(f"""
-        <div class="team-card">
-            <img src="{member['image']}" class="team-member-image" alt="{member['name']}"/>
-            <div class="team-member-name">{member['name']}</div>
-            <div class="team-social-links">
-                <a href="{member['linkedin']}" target="_blank" class="social-btn" title="LinkedIn">
-                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24" style="vertical-align:middle;">
-                </a>
-                <a href="{member['github']}" target="_blank" class="social-btn" title="GitHub">
-                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="24" style="vertical-align:middle;">
-                </a>
+        with cols[i]:
+            st.markdown(f"""
+            <div class="team-card">
+                <img src="{member['image']}" class="team-member-image" alt="{member['name']}"/>
+                <div class="team-member-name">{member['name']}</div>
+                <div class="team-social-links">
+                    <a href="{member['linkedin']}" target="_blank" class="social-btn" title="LinkedIn">
+                        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="24" style="vertical-align:middle;">
+                    </a>
+                    <a href="{member['github']}" target="_blank" class="social-btn" title="GitHub">
+                        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="24" style="vertical-align:middle;">
+                    </a>
+                </div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
     
     st.markdown("---")
     st.markdown("**Indian Institute of Information Technology Design & Manufacturing, Kurnool**")
     st.markdown("*Building sustainable energy solutions through data analytics and machine learning*")
-    st.markdown("© Copyright 2025")
+    # st.markdown("© Copyright 2025")
